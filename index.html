@@ -379,6 +379,12 @@
             document
                 .getElementById("surprise-card")
                 .classList.remove("hidden");
+            const sound = document.getElementById("birthday-sound");
+
+            sound.currentTime = 0;
+            sound.play().catch(error => {
+            console.log("Audio gagal diputar:", error);
+});
 
 
             /* Konfeti */
