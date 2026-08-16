@@ -1,0 +1,492 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ada Kejutan Buat Kamu! 🎉</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ffe5ec, #ffc2d1);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px 25px;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+            animation: appear 0.6s ease;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: scale(0.85);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        h1 {
+            color: #ff477e;
+            font-size: 25px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: #4a4a4a;
+            font-size: 15px;
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            height: 55px;
+        }
+
+        button {
+            padding: 12px 27px;
+            border: none;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-yes {
+            background: #ff477e;
+            color: white;
+            box-shadow: 0 6px 18px rgba(255, 71, 126, 0.35);
+            transition: 0.2s;
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.08);
+            background: #ff0a54;
+        }
+
+        /*
+        Tombol Gak Mau dibuat fixed
+        supaya bisa bergerak di seluruh layar HP.
+        */
+        .btn-no {
+            background: #e5e5e5;
+            color: #666;
+            position: fixed;
+            z-index: 9999;
+            transition:
+                left 0.15s ease,
+                top 0.15s ease;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .cake {
+            font-size: 65px;
+            margin-bottom: 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .letter {
+            background: #fff5f7;
+            border: 2px dashed #ff477e;
+            padding: 18px;
+            border-radius: 15px;
+            margin-top: 15px;
+            text-align: left;
+        }
+
+        .letter p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .heart {
+            position: fixed;
+            font-size: 20px;
+            pointer-events: none;
+            animation: fall linear forwards;
+            z-index: 1;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        @keyframes fall {
+            from {
+                transform: translateY(-50px) rotate(0deg);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Khusus HP kecil */
+        @media (max-width: 400px) {
+            .card {
+                padding: 25px 18px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            p {
+                font-size: 14px;
+            }
+
+            button {
+                padding: 11px 23px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ========================= -->
+    <!-- HALAMAN PERTAMA -->
+    <!-- ========================= -->
+
+    <div class="card" id="quiz-card">
+
+        <h1>Hai Kamu! 🫵👀</h1>
+
+        <p>
+            Ada sesuatu yang penting banget nih...
+            Kamu mau lihat kejutan gak? 👀
+        </p>
+
+        <div class="btn-container">
+
+            <button
+                class="btn-yes"
+                onclick="showSurprise()">
+                Mau! 💗
+            </button>
+
+            <button
+                class="btn-no"
+                id="btn-no">
+                Gak Mau 😝
+            </button>
+
+        </div>
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- HALAMAN KEJUTAN -->
+    <!-- ========================= -->
+
+    <div
+        class="card hidden"
+        id="surprise-card">
+
+        <div class="cake">
+            🎂✨
+        </div>
+
+        <h1>
+            SELAMAT ULANG TAHUN! 🎉
+        </h1>
+
+        <p>
+            <b>HBD ya temen terbaik / ter-absurd guah! 😂</b>
+            Akhirnya nambah tua juga.
+            Semoga panjang umur, sehat selalu,
+            makin banyak rezekinya,
+            dan semoga tahun ini banyak hal baik
+            yang datang ke hidup mu! 💗
+        </p>
+
+        <div class="letter">
+
+            <p>
+                ✍️ <b>Surat Spesial:</b>
+                <br><br>
+
+                "Woy! Makasih udah mau temenan ma gua.
+                Sepurane nak web e jek simpel 😭.
+                Kurang-kurangin tuh kurangnya,
+                tetep jadi orang baik ya, kecuali di jahatin orang!
+
+                <br><br>
+
+                Semoga semua yang di pengenin
+                pelan-pelan bisa tercapai.
+                Jangan lupa bahagia dan jangan kebanyakan
+                ngehalu nikah ma cowo fiksi😭.
+
+                <br><br>
+
+                JO LALI BAYAR PAJAK 😏"
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- AUDIO -->
+    <!-- ========================= -->
+
+    <!--
+    Kalau punya lagu sendiri,
+    ganti bagian src dengan link/file musik kamu.
+    -->
+
+    <audio
+        id="birthday-sound"
+        preload="auto">
+    </audio>
+
+
+    <script>
+
+        /* =====================================
+           TOMBOL "GAK MAU" KABUR
+        ===================================== */
+
+        const btnNo = document.getElementById("btn-no");
+
+        function moveButton() {
+
+            const margin = 15;
+
+            const buttonWidth = btnNo.offsetWidth;
+            const buttonHeight = btnNo.offsetHeight;
+
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+
+            const maxX =
+                screenWidth - buttonWidth - margin;
+
+            const maxY =
+                screenHeight - buttonHeight - margin;
+
+            const randomX =
+                Math.floor(
+                    Math.random() *
+                    (maxX - margin + 1)
+                ) + margin;
+
+            const randomY =
+                Math.floor(
+                    Math.random() *
+                    (maxY - margin + 1)
+                ) + margin;
+
+            btnNo.style.left = randomX + "px";
+            btnNo.style.top = randomY + "px";
+        }
+
+
+        /* PC / Laptop */
+        btnNo.addEventListener(
+            "mouseover",
+            moveButton
+        );
+
+
+        /* HP / Touchscreen */
+        btnNo.addEventListener(
+            "touchstart",
+            function(event) {
+
+                event.preventDefault();
+
+                moveButton();
+
+            },
+            { passive: false }
+        );
+
+
+        /* Kalau diklik */
+        btnNo.addEventListener(
+            "click",
+            function(event) {
+
+                event.preventDefault();
+
+                moveButton();
+
+            }
+        );
+
+
+        /* =====================================
+           KEJUTAN
+        ===================================== */
+
+        function showSurprise() {
+
+            document
+                .getElementById("quiz-card")
+                .classList.add("hidden");
+
+            document
+                .getElementById("surprise-card")
+                .classList.remove("hidden");
+
+
+            /* Konfeti */
+
+            let duration = 4000;
+
+            let end =
+                Date.now() + duration;
+
+
+            (function frame() {
+
+                confetti({
+                    particleCount: 7,
+                    angle: 60,
+                    spread: 70,
+                    origin: {
+                        x: 0
+                    }
+                });
+
+                confetti({
+                    particleCount: 7,
+                    angle: 120,
+                    spread: 70,
+                    origin: {
+                        x: 1
+                    }
+                });
+
+
+                if (Date.now() < end) {
+
+                    requestAnimationFrame(frame);
+
+                }
+
+            })();
+
+
+            /* Hati jatuh */
+
+            createHearts();
+
+
+            /* Coba memainkan audio */
+
+            const sound =
+                document.getElementById(
+                    "birthday-sound"
+                );
+
+            sound.play().catch(() => {
+
+                console.log(
+                    "Audio tidak tersedia."
+                );
+
+            });
+
+        }
+
+
+        /* =====================================
+           ANIMASI HATI
+        ===================================== */
+
+        function createHearts() {
+
+            setInterval(() => {
+
+                const heart =
+                    document.createElement("div");
+
+                heart.classList.add("heart");
+
+                heart.innerHTML =
+                    Math.random() > 0.5
+                    ? "💗"
+                    : "✨";
+
+                heart.style.left =
+                    Math.random() * 100 + "vw";
+
+                heart.style.animationDuration =
+                    (Math.random() * 3 + 3) + "s";
+
+                heart.style.fontSize =
+                    (Math.random() * 15 + 15) + "px";
+
+                document.body.appendChild(
+                    heart
+                );
+
+
+                setTimeout(() => {
+
+                    heart.remove();
+
+                }, 6000);
+
+            }, 400);
+
+        }
+
+    </script>
+
+</body>
+</html>
+```
+  
